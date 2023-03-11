@@ -43,7 +43,7 @@ export class MsApplicationLauncher extends St.Widget {
         this.appListContainer = new MsApplicationButtonContainer(
             this.msWorkspace
         );
-        this.initAppListContainer();
+        // this.initAppListContainer();
         this.launcherChangedSignal = SignalHandle.connect(
             Me.msThemeManager,
             'clock-app-launcher-changed',
@@ -69,6 +69,22 @@ export class MsApplicationLauncher extends St.Widget {
         this.connect('key-focus-out', () => {
             //this._searchResults.highlightDefault(false);
         });
+        this.launcherChangedSignal = SignalHandle.connect(
+            Me.msThemeManager,
+            'show-application-launcher-changed',
+            () => {
+                if (Me.msThemeManager.showApplicationLauncher) {
+                    this.startAppListContainer();
+                }
+
+                if (!Me.msThemeManager.showApplicationLauncher) {
+                    this.stopAppListContainer();
+                }
+            }
+        );
+        if (Me.msThemeManager.showApplicationLauncher) {
+            this.startAppListContainer();
+        }
     }
 
     onDestroy() {
@@ -81,11 +97,30 @@ export class MsApplicationLauncher extends St.Widget {
     }
 
     restartAppListContainer() {
+        if (Me.msThemeManager.showApplicationLauncher) {
+            this.startAppListContainer();
+        }
+
+        if (!Me.msThemeManager.showApplicationLauncher) {
+            this.stopAppListContainer();
+        }
+    }
+
+    startAppListContainer() {
         this.appListContainer.destroy();
         this.appListContainer = new MsApplicationButtonContainer(
             this.msWorkspace
         );
+        this.add_style_class_name('surface-darker');
         this.initAppListContainer();
+    }
+
+    stopAppListContainer() {
+        this.appListContainer.destroy
+        this.appListContainer = new MsApplicationButtonContainer(
+            this.msWorkspace
+        );
+        this.remove_style_class_name('surface-darker');
     }
 
     initAppListContainer() {

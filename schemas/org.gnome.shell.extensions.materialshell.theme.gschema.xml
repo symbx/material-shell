@@ -98,5 +98,10 @@
             <summary>Focus effect</summary>
             <description>Define which focus effect to apply when using tiling layouts</description>
         </key>
+        <key name="show-application-launcher" type="b">
+            <default>true</default>
+            <summary>Enable/Disable application launcher</summary>
+            <description>Enables/Disables the application launcher that appears when a new workspace is opened</description>
+        </key>
     </schema>
 </schemalist>
